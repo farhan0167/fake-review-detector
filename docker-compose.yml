@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  backend-flaskapp:
+    build: ./backend
+    volumes:
+      - /Users/farhanishraq/Downloads/Projects/FakeReviews/models:/app/models
+      - /Users/farhanishraq/Downloads/Projects/FakeReviews/pre-trained:/app/pre-trained
+    ports:
+      - 8000:8000
