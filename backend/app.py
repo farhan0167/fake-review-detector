@@ -5,7 +5,6 @@ import torch
 import socket
 from collections import defaultdict
 import json
-import netifaces
 
 app = Flask(__name__)
 connection_table = defaultdict(int)
@@ -14,18 +13,6 @@ connection_table = defaultdict(int)
 class DropOutput(Callback):
     def after_pred(self): self.learn.pred = self.pred[0]
 
-def get_mac_address(ip_address):
-    interfaces = netifaces.interfaces()
-    for i in interfaces:
-        if i == 'lo':
-            continue
-        iface = netifaces.ifaddresses(i).get(netifaces.AF_INET)
-        if iface != None:
-            for j in iface:
-                if j['addr'] == ip_address:
-                    mac_address = netifaces.ifaddresses(i).get(netifaces.AF_LINK)[0]['addr']
-                    return mac_address
-    return None
 
 @app.route("/")
 def welcome():
@@ -53,8 +40,7 @@ def connecttion_info():
         "client_ip": client_ip,
         "number_of_requests": connection_table[client_ip],
         'ip_of_client': ip,
-        'port_of_client': port,
-        'client_mac': client_mac
+        'port_of_client': port
     }
 @app.route("/generate")
 def generate_review():
