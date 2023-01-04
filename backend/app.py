@@ -3,8 +3,11 @@ from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from fastai.text.all import *
 import torch
 import socket
+from collections import defaultdict
 
 app = Flask(__name__)
+connection_table = defaultdict(int)
+
 
 class DropOutput(Callback):
     def after_pred(self): self.learn.pred = self.pred[0]
@@ -22,10 +25,14 @@ def connecttion_info():
     server_ip = socket.gethostbyname(server_name)
     client_ip = request.remote_addr
 
+    if client_ip not in connection_table.keys():
+        connection_table[client_ip]+=1
+
     return {
         "server_name": server_name,
         "server_ip": server_ip,
-        "client_ip": client_ip
+        "client_ip": client_ip,
+        "number_of_requests": connection_table[client_ip]
     }
 @app.route("/generate")
 def generate_review():
