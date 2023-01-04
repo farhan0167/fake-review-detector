@@ -25,6 +25,7 @@ def connecttion_info():
     server_name = socket.gethostname()
     server_ip = socket.gethostbyname(server_name)
     client_ip = request.remote_addr
+    ip, port = request.environ.get('REMOTE_ADDR'), request.environ.get('REMOTE_PORT')
 
     if client_ip not in connection_table.keys():
         connection_table[client_ip]+=1
@@ -35,7 +36,9 @@ def connecttion_info():
         "server_name": server_name,
         "server_ip": server_ip,
         "client_ip": client_ip,
-        "number_of_requests": connection_table[client_ip]
+        "number_of_requests": connection_table[client_ip],
+        'ip_of_client': ip,
+        'port_of_client': port
     }
 @app.route("/generate")
 def generate_review():
