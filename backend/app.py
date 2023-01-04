@@ -24,9 +24,8 @@ def welcome():
         "message": "Hello"
     }
 
-
-@app.route("/get-connection-info")
 @limiter.limit("2/minute")
+@app.route("/get-connection-info")
 def connecttion_info():
     server_name = socket.gethostname()
     server_ip = socket.gethostbyname(server_name)
