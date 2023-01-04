@@ -34,6 +34,10 @@ def connecttion_info():
     if client_ip not in connection_table.keys():
         connection_table[client_ip]+=1
     else:
+        if connection_table[client_ip]>10:
+            return {
+                "message": "Too many requests"
+            }
         connection_table[client_ip]+=1
 
     return {
