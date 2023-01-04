@@ -24,7 +24,7 @@ def connecttion_info():
     server_name = socket.gethostname()
     server_ip = socket.gethostbyname(server_name)
     client_ip = request.remote_addr
-    req = request.request.get_json()
+    req = request.get_json()
 
     if client_ip not in connection_table.keys():
         connection_table[client_ip]+=1
