@@ -9,12 +9,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://",
-)
+limiter = Limiter(app, key_func=get_remote_address)
 connection_table = defaultdict(int)
 
 
@@ -29,8 +24,9 @@ def welcome():
         "message": "Hello"
     }
 
-@limiter.limit("2/minute")
+
 @app.route("/get-connection-info")
+@limiter.limit("2/minute")
 def connecttion_info():
     server_name = socket.gethostname()
     server_ip = socket.gethostbyname(server_name)
