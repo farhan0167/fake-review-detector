@@ -9,4 +9,4 @@ RUN pip install gunicorn
 WORKDIR /app
 COPY . /app
 
-CMD ["gunicorn", "-b", ":8000", "--timeout", "6000", "--workers=10", "app:app"]
+CMD ["gunicorn", "-b", ":8000", "--timeout", "6000", "--workers=3", "app:app"]

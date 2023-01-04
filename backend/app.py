@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from fastai.text.all import *
 import torch
+import socket
 
 app = Flask(__name__)
 
@@ -9,8 +10,25 @@ class DropOutput(Callback):
     def after_pred(self): self.learn.pred = self.pred[0]
 
 @app.route("/")
-def hello_world():
+def welcome():
+    
+    return {
+        "message": "Hello"
+    }
 
+@app.route("/get-connection-info")
+def connecttion_info():
+    server_name = socket.gethostname()
+    server_ip = socket.gethostbyname(server_name)
+    client_ip = request.remote_addr
+
+    return {
+        "server_name": server_name,
+        "server_ip": server_ip,
+        "client_ip": client_ip
+    }
+@app.route("/generate")
+def generate_review():
     tokenizer = torch.load('pre-trained/gpt2pretrained-tokenizer.pth')
     model = torch.load('pre-trained/gpt2pretrained-model.pth')
     learn = Learner(dls=None, model=model, loss_func=CrossEntropyLossFlat(), cbs=[DropOutput], metrics=Perplexity()).to_fp16()
