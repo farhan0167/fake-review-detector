@@ -27,7 +27,7 @@ def connecttion_info():
     server_ip = socket.gethostbyname(server_name)
     client_ip = request.remote_addr
     ip, port = request.environ.get('REMOTE_ADDR'), request.environ.get('REMOTE_PORT')
-    client_mac = get_mac_address(client_ip)
+
 
     if client_ip not in connection_table.keys():
         connection_table[client_ip]+=1
