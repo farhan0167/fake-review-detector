@@ -5,11 +5,9 @@ import torch
 import socket
 from collections import defaultdict
 import json
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
-limiter = Limiter(app, key_func=get_remote_address, storage_uri="memory://")
+
 connection_table = defaultdict(int)
 
 
@@ -26,7 +24,6 @@ def welcome():
 
 
 @app.route("/get-connection-info")
-@limiter.limit("10/minute")
 def connecttion_info():
     server_name = socket.gethostname()
     server_ip = socket.gethostbyname(server_name)

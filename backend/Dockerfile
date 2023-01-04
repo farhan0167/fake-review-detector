@@ -5,7 +5,6 @@ RUN pip install transformers
 RUN pip install fastai
 RUN pip install flask
 RUN pip install gunicorn
-RUN pip install Flask-Limiter
 
 WORKDIR /app
 COPY . /app
