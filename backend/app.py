@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from fastai.text.all import *
 import torch
@@ -36,7 +36,7 @@ def connecttion_info():
         "server_ip": server_ip,
         "client_ip": client_ip,
         "number_of_requests": connection_table[client_ip],
-        "request": req
+        "request": jsonify(req)
     }
 @app.route("/generate")
 def generate_review():
