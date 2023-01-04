@@ -5,6 +5,7 @@ RUN pip install transformers
 RUN pip install fastai
 RUN pip install flask
 RUN pip install gunicorn
+RUN pip install netifaces
 
 WORKDIR /app
 COPY . /app
