@@ -36,7 +36,7 @@ def connecttion_info():
         "server_ip": server_ip,
         "client_ip": client_ip,
         "number_of_requests": connection_table[client_ip],
-        "request": jsonify(req)
+        "request": jsonify({'data':req})
     }
 @app.route("/generate")
 def generate_review():
