@@ -27,6 +27,8 @@ def connecttion_info():
 
     if client_ip not in connection_table.keys():
         connection_table[client_ip]+=1
+    else:
+        connection_table[client_ip]+=1
 
     return {
         "server_name": server_name,
