@@ -5,6 +5,7 @@ import torch
 import socket
 from collections import defaultdict
 import json
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -50,7 +51,7 @@ def connecttion_info():
         'ip_of_client': ip,
         'port_of_client': port
     }
-    
+
 @app.route("/generate", methods=['GET', 'POST'])
 def generate_review():
     if request.method == 'POST':
