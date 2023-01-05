@@ -5,10 +5,10 @@ import torch
 import socket
 from collections import defaultdict
 import json
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
+CORS(app, support_credentials=True)
 connection_table = defaultdict(int)
 
 
