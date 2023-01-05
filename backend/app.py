@@ -57,8 +57,10 @@ def generate_review():
     if request.method == 'POST':
         req =  request.get_json()
         prompt = req['prompt']
+        maxWords = int(req['maxWords'])
     else:
         prompt = "The service was the best I've"
+        maxWords = 30
 
     tokenizer = torch.load('pre-trained/gpt2pretrained-tokenizer.pth')
     model = torch.load('pre-trained/gpt2pretrained-model.pth')
@@ -69,7 +71,7 @@ def generate_review():
     prompt_ids = tokenizer.encode(prompt)
     inp = tensor(prompt_ids)[None]
 
-    preds = learn.model.generate(inp, max_length=40, do_sample=True, top_k=0, top_p=0.92, num_return_sequences=NUM_OF_SAMPLES, temperature=0.7)
+    preds = learn.model.generate(inp, max_length=maxWords, do_sample=True, top_k=0, top_p=0.85, num_return_sequences=NUM_OF_SAMPLES, temperature=0.8)
 
     return {
         "message": tokenizer.decode(preds[0].cpu().numpy())
