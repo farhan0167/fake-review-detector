@@ -35,6 +35,8 @@ def connecttion_info():
         connection_table[client_ip]+=1
     else:
         if connection_table[client_ip]>10:
+            #record an entry for the ip address in connection table
+            #need to wait an hour before making more requests
             return {
                 "message": "Too many requests"
             }
@@ -48,22 +50,27 @@ def connecttion_info():
         'ip_of_client': ip,
         'port_of_client': port
     }
-@app.route("/generate")
+    
+@app.route("/generate", methods=['GET', 'POST'])
 def generate_review():
+    if request.method == 'POST':
+        req =  request.get_json()
+        prompt = req['prompt']
+    else:
+        prompt = "The service was the best I've"
+
     tokenizer = torch.load('pre-trained/gpt2pretrained-tokenizer.pth')
     model = torch.load('pre-trained/gpt2pretrained-model.pth')
     learn = Learner(dls=None, model=model, loss_func=CrossEntropyLossFlat(), cbs=[DropOutput], metrics=Perplexity()).to_fp16()
     learn.load("gpt2-Restaurants")
 
     NUM_OF_SAMPLES = 1
-    prompt = "The service was the best I've"
     prompt_ids = tokenizer.encode(prompt)
     inp = tensor(prompt_ids)[None]
 
     preds = learn.model.generate(inp, max_length=40, do_sample=True, top_k=0, top_p=0.92, num_return_sequences=NUM_OF_SAMPLES, temperature=0.7)
 
     return {
-        "prompt": prompt,
         "message": tokenizer.decode(preds[0].cpu().numpy())
     }
 
