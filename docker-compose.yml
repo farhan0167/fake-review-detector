@@ -4,7 +4,19 @@ services:
   backend-flaskapp:
     build: ./backend
     volumes:
-      - /Users/farhanishraq/Downloads/Projects/FakeReviews/models:/app/models
-      - /Users/farhanishraq/Downloads/Projects/FakeReviews/pre-trained:/app/pre-trained
+      - /home/ubuntu/fake-review-detector/models:/app/models
+      - /home/ubuntu/fake-review-detector/pre-trained:/app/pre-trained
     ports:
       - 8000:8000
+    container_name: backend-flaskapp
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    container_name: nginx
+    volumes:
+      - /home/ubuntu/fake-review-detector/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /home/ubuntu/certbot-cert:/certbot-cert
+    depends_on:
+      - backend-flaskapp
