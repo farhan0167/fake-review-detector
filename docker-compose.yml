@@ -2,21 +2,29 @@ version: '3'
 
 services:
   backend-flaskapp:
+    #specify build folder:
     build: ./backend
+    #mount the volumes
     volumes:
+      #these were mounted from AWS S3 into the models and pre-trained directory. Now just map to docker volume
       - /home/ubuntu/fake-review-detector/models:/app/models
       - /home/ubuntu/fake-review-detector/pre-trained:/app/pre-trained
+    #port 8000 will be exposed
     ports:
       - 8000:8000
     container_name: backend-flaskapp
+  #nginx service
   nginx:
     image: nginx:latest
+    #expose both port 80 and 443(https)
     ports:
       - "80:80"
       - "443:443"
     container_name: nginx
     volumes:
+      #mount nginx config for Docker
       - /home/ubuntu/fake-review-detector/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      #used certbot to get a LetsEncrypt certificate
       - /home/ubuntu/certbot-cert:/certbot-cert
     depends_on:
       - backend-flaskapp

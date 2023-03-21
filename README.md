@@ -11,7 +11,7 @@ Since this was originally not intended, we have been training/fine-tuning our mo
 As a result of this, I needed to move to the cloud again and my choice was AWS EC2 instance. I created an EC2 instance of type t2.medium. Intially I chose a t2.nano but running an inference was taking more than 2 minutes so I chose t2.medium which returns a response in 30s (not ideal but was adequate for a demo). The first challenge, however, was to get one of the model weights
 on to EC2. Since downloading on localhost and then re-uploading did not make sense, I moved the weights on to AWS S3 and then on the EC2 instance, I mounted the weights from the S3 bucket. This approach was much faster than waiting for the weights to download on my computer. 
 
-The application is simple. The main code resides [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/app.py#L56:~:text=%5D)). The endpoint takes in the prompt and the maximum number of words you want to generate, and returns you a generated review. 
+The application is simple. The main code resides [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/app.py#L56:~:text=%5D). The endpoint takes in the prompt and the maximum number of words you want to generate, and returns you a generated review. In order to learn about the implementation on how these reviews are generated, you can read our technical [paper](https://drive.google.com/file/d/1ixxOLasU_YBZEwAiysBrrMizcbC5i9LW/view).
 
 The Dockerfile can be found [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/Dockerfile) \
 The Dockercompose file [here](https://github.com/farhan0167/fake-review-detector/blob/main/docker-compose.yml) \
