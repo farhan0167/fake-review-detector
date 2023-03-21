@@ -13,8 +13,8 @@ on to EC2. Since downloading on localhost and then re-uploading did not make sen
 
 The application is simple. The main code resides [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/app.py#L56:~:text=%5D)-,def,%7D,-if). The endpoint takes in the prompt and the maximum number of words you want to generate, and returns you a generated review. 
 
-The Dockerfile can be found [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/Dockerfile)
-The Dockercompose file [here](https://github.com/farhan0167/fake-review-detector/blob/main/docker-compose.yml)
+The Dockerfile can be found [here](https://github.com/farhan0167/fake-review-detector/blob/main/backend/Dockerfile) \
+The Dockercompose file [here](https://github.com/farhan0167/fake-review-detector/blob/main/docker-compose.yml) \
 The Nginx configuration files [here](https://github.com/farhan0167/fake-review-detector/blob/main/nginx/nginx.conf)
 
 Something interesting that I learnt deploying the application on EC2 was running an application on a cloud instance with an IP address will always give you a connection over http. In order to make the connection go over https we will need a certificate from a certificate authority. We can certainly use our own certificate but there is nothing to say that Bob next door couldnt open up another certificate with my name claiming to be me- how do you verify that Bob is not me, and that I am actually me who I claim to be? That's where certificate authorities come in- its an organization that the internet community has agreed to trust. They sign our certificates validating I am who I claim to be. But up until that point I thought this was a paid service but behold- Lets Encrypt lets gives you a CA certificate by running a simple command. You can learn more about how you can get CA certified certificates from [here](https://certbot.eff.org/).
